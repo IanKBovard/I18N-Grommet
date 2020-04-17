@@ -3,48 +3,49 @@ import { useTranslation } from 'react-i18next';
 import { Box, Button, Heading, Paragraph, Select } from 'grommet';
 import { Link } from 'react-router-dom';
 
-const SelectExample = () => {
-  const [value, setValue] = useState();
+const SelectI18next = () => {
   const { t, i18n } = useTranslation();
+  const [value, setValue] = useState('');
+  const [language, setLanuage] = useState('en');
 
-  const changeLanguage = lng => {
-    setValue();
-    i18n.changeLanguage(lng);
+  const changeLanguage = (lng) => {
+    if (lng !== language) {
+      setLanuage(lng);
+      setValue('');
+      i18n.changeLanguage(lng);
+    }
   };
 
   return (
     <Box gap="large">
       <Box align="center">
-        <Heading level="3" textAlign="center">
-          {t('title')}
-        </Heading>
-        <Paragraph>
-          This example uses I18n to translate the string value found in Select's
-          messages prop.
+        <Paragraph textAlign="center">
+          This example uses react-i18next to translate the select compoenent's
+          options, and the string value found in its messages prop.
         </Paragraph>
         <Select
           options={[
-            t('selection.option1'),
-            t('selection.option2'),
-            t('selection.option3'),
+            t('select.option1'),
+            t('select.option2'),
+            t('select.option3'),
           ]}
-          messages={{ multiple: t('messages.multiple') }}
+          messages={{ multiple: t('select.multiple') }}
           multiple
           value={value}
           onChange={({ value: nextValue }) => setValue(nextValue)}
         />
       </Box>
       <Box gap="small" align="center">
-        <Paragraph>{t('description.part2')}</Paragraph>
+        <Paragraph textAlign="center">Change from English to German</Paragraph>
         <Button
           onClick={() => changeLanguage('en')}
-          label={t('language.option1')}
+          label={t('select.language1')}
         />
         <Button
           onClick={() => changeLanguage('de')}
-          label={t('language.option2')}
+          label={t('select.language2')}
         />
-        <Link to={`/`}>
+        <Link to={`/react-i18next`}>
           <Heading level="4">Back</Heading>
         </Link>
       </Box>
@@ -61,7 +62,7 @@ const Loader = () => (
 export default () => {
   return (
     <Suspense fallback={<Loader />}>
-      <SelectExample />
+      <SelectI18next />
     </Suspense>
   );
 };
